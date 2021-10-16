@@ -12,12 +12,15 @@ class CharactersScreen extends StatefulWidget {
 
 class _CharactersScreenState extends State<CharactersScreen> {
   late List<Character> allCharacters;
+  late List<Character> searchedForCharacters;
+  bool _isSearching = false;
+  FocusNode _focusSearch = new FocusNode();
+  final _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    allCharacters =
-        BlocProvider.of<CharactersCubit>(context).getAllCharacters();
+    BlocProvider.of<CharactersCubit>(context).getAllCharacters();
   }
 
   @override
@@ -25,26 +28,28 @@ class _CharactersScreenState extends State<CharactersScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyColors.yellow,
-        title: Text(
-          'Characters',
-          style: TextStyle(color: MyColors.grey),
-        ),
+        leading: _isSearching
+            ? BackButton(
+                color: MyColors.grey,
+              )
+            : null,
+        title: _isSearching ? _buildSearchField() : _buildAppBarTitle(),
+        actions: _buildAppBarActions(),
       ),
       body: buildBlocWidget(),
     );
   }
 
-  Widget buildBlocWidget() {
-    return BlocBuilder<CharactersCubit, CharactersState>(
-        builder: (context, state) {
-      if (state is CharactersLoaded) {
-        allCharacters = state.characters;
-        return buildLoadedListWidgets();
-      } else {
-        return showLoadingIndicator();
-      }
-    });
-  }
+  Widget buildBlocWidget() =>
+      BlocBuilder<CharactersCubit, CharactersState>(builder: (context, state) {
+        if (state is CharactersLoaded) {
+          allCharacters =
+              state.characters.where((element) => element.charId != 3).toList();
+          return buildLoadedListWidgets();
+        } else {
+          return showLoadingIndicator();
+        }
+      });
 
   Widget showLoadingIndicator() => Center(
         child: CircularProgressIndicator(
@@ -73,9 +78,95 @@ class _CharactersScreenState extends State<CharactersScreen> {
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
         padding: EdgeInsets.zero,
-        itemCount: allCharacters.length,
+        itemCount: _searchController.text.isNotEmpty
+            ? searchedForCharacters.length
+            : allCharacters.length,
         itemBuilder: (context, index) => CharacterItem(
-          character: allCharacters[index],
+          character: _searchController.text.isNotEmpty
+              ? searchedForCharacters[index]
+              : allCharacters[index],
         ),
       );
+
+  Widget _buildAppBarTitle() => Text(
+        'Characters',
+        style: TextStyle(color: MyColors.grey),
+      );
+
+  Widget _buildSearchField() => TextField(
+        controller: _searchController,
+        focusNode: _focusSearch,
+        cursorColor: MyColors.grey,
+        decoration: InputDecoration(
+          hintText: 'Find a character...',
+          border: InputBorder.none,
+          hintStyle: TextStyle(
+            color: MyColors.grey,
+            fontSize: 18,
+          ),
+        ),
+        style: TextStyle(
+          color: MyColors.grey,
+          fontSize: 18,
+        ),
+        onChanged: (searchedCharacter) {
+          addSearchedForItemsToSearchedList(searchedCharacter);
+        },
+      );
+
+  void addSearchedForItemsToSearchedList(searchedCharacter) {
+    searchedForCharacters = allCharacters
+        .where((character) =>
+            character.name.toLowerCase().startsWith(searchedCharacter))
+        .toList();
+    setState(() {});
+  }
+
+  List<Widget> _buildAppBarActions() {
+    if (_isSearching) {
+      return [
+        IconButton(
+          onPressed: () {
+            _clearSearch();
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.clear, color: MyColors.grey),
+        ),
+      ];
+    } else {
+      return [
+        IconButton(
+          onPressed: _startSearch,
+          icon: Icon(
+            Icons.search,
+            color: MyColors.grey,
+          ),
+        ),
+      ];
+    }
+  }
+
+  void _startSearch() {
+    ModalRoute.of(context)!
+        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
+
+    _focusSearch.requestFocus();
+
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void _stopSearching() {
+    _clearSearch();
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
+  void _clearSearch() {
+    setState(() {
+      _searchController.clear();
+    });
+  }
 }
