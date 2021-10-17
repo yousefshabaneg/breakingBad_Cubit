@@ -20,6 +20,7 @@ class Character {
     statusIfDeadOrAlive = json['status'];
     nickname = json['nickname'];
     apperanceOfSeasons = json['appearance'];
+    categoryForTwoSeries = json["category"];
     betterCallSaulApperance = json['better_call_saul_appearance'];
     actorName = json['portrayed'];
   }
