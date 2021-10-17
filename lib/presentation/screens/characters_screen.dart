@@ -4,6 +4,7 @@ import 'package:flutter_breaking/business_logic/cubit/characters_cubit.dart';
 import 'package:flutter_breaking/constants/my_colors.dart';
 import 'package:flutter_breaking/data/models/characters.dart';
 import 'package:flutter_breaking/presentation/widgets/character_item.dart';
+import 'package:flutter_breaking/presentation/widgets/show_progress_indicator.dart';
 
 class CharactersScreen extends StatefulWidget {
   @override
@@ -49,12 +50,6 @@ class _CharactersScreenState extends State<CharactersScreen> {
           return showLoadingIndicator();
         }
       });
-
-  Widget showLoadingIndicator() => Center(
-        child: CircularProgressIndicator(
-          color: MyColors.yellow,
-        ),
-      );
 
   Widget buildLoadedListWidgets() => SingleChildScrollView(
         child: Container(

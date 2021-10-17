@@ -1,14 +1,22 @@
+import 'dart:math';
+
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_breaking/business_logic/cubit/characters_cubit.dart';
 import 'package:flutter_breaking/constants/my_colors.dart';
 import 'package:flutter_breaking/data/models/characters.dart';
+import 'package:flutter_breaking/presentation/widgets/show_progress_indicator.dart';
 
 class CharacterDetailsScreen extends StatelessWidget {
   final Character character;
 
   const CharacterDetailsScreen({Key? key, required this.character})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<CharactersCubit>(context).getQuotes(character.name);
     return Scaffold(
       backgroundColor: MyColors.grey,
       body: CustomScrollView(
@@ -55,6 +63,9 @@ class CharacterDetailsScreen extends StatelessWidget {
                           : Container(),
                       characterInfo('Actor/Actress : ', character.actorName),
                       buildDivider(250),
+                      BlocBuilder<CharactersCubit, CharactersState>(
+                          builder: (context, state) =>
+                              checkIfQuotesAreLoaded(state)),
                     ],
                   ),
                 ),
@@ -67,6 +78,40 @@ class CharacterDetailsScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget checkIfQuotesAreLoaded(state) => state is QuotesLoaded
+      ? displayRandomQuoteOrEmptySpace(state)
+      : showLoadingIndicator();
+
+  Widget displayRandomQuoteOrEmptySpace(state) {
+    var quotes = state.quotes;
+    if (quotes.length != 0) {
+      int randomQuoteIndex = Random().nextInt(quotes.length - 1);
+      return Center(
+        child: DefaultTextStyle(
+          style: TextStyle(
+            fontSize: 20,
+            color: MyColors.white,
+            shadows: [
+              Shadow(
+                blurRadius: 7,
+                color: MyColors.yellow,
+                offset: Offset(0, 0),
+              )
+            ],
+          ),
+          child: AnimatedTextKit(
+            repeatForever: true,
+            animatedTexts: [
+              FlickerAnimatedText(quotes[randomQuoteIndex].quote)
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+    return Container();
   }
 
   Widget characterInfo(String title, String value) => RichText(

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_breaking/constants/strings.dart';
+import 'package:flutter_breaking/data/models/characters.dart';
 
 class CharactersWebServices {
   late Dio dio;
@@ -20,6 +21,18 @@ class CharactersWebServices {
       return response.data;
     } catch (e) {
       print(e.toString());
+      return [];
+    }
+  }
+
+  Future<List<dynamic>> getCharacterQuotes(String charName) async {
+    try {
+      Response response = await dio.get(
+        'quote',
+        queryParameters: {'author': charName},
+      );
+      return response.data;
+    } catch (e) {
       return [];
     }
   }
