@@ -54,24 +54,26 @@ class _CharactersScreenState extends State<CharactersScreen> {
   }
 
   Widget buildNoInternetWidget() => Center(
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'No connection ... Check your Internet',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: MyColors.grey,
+        child: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 20,
                 ),
-              ),
-              Image.asset('assets/images/no_internet.png'),
-            ],
+                Text(
+                  'No connection ... Check your Internet',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: MyColors.grey,
+                  ),
+                ),
+                Image.asset('assets/images/no_internet.png'),
+              ],
+            ),
           ),
         ),
       );
@@ -176,14 +178,16 @@ class _CharactersScreenState extends State<CharactersScreen> {
   }
 
   void _startSearch() {
-    ModalRoute.of(context)!
-        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
+    if (connected) {
+      ModalRoute.of(context)!
+          .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
 
-    _focusSearch.requestFocus();
+      _focusSearch.requestFocus();
 
-    setState(() {
-      _isSearching = true;
-    });
+      setState(() {
+        _isSearching = true;
+      });
+    } else {}
   }
 
   void _stopSearching() {
