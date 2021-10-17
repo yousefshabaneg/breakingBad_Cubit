@@ -5,6 +5,7 @@ import 'package:flutter_breaking/constants/my_colors.dart';
 import 'package:flutter_breaking/data/models/characters.dart';
 import 'package:flutter_breaking/presentation/widgets/character_item.dart';
 import 'package:flutter_breaking/presentation/widgets/show_progress_indicator.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 
 class CharactersScreen extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
   bool _isSearching = false;
   FocusNode _focusSearch = new FocusNode();
   final _searchController = TextEditingController();
+  bool connected = true;
 
   @override
   void initState() {
@@ -35,11 +37,44 @@ class _CharactersScreenState extends State<CharactersScreen> {
               )
             : null,
         title: _isSearching ? _buildSearchField() : _buildAppBarTitle(),
-        actions: _buildAppBarActions(),
+        actions: connected ? _buildAppBarActions() : null,
       ),
-      body: buildBlocWidget(),
+      body: OfflineBuilder(
+        connectivityBuilder: (
+          BuildContext context,
+          ConnectivityResult connectivity,
+          Widget child,
+        ) {
+          connected = connectivity != ConnectivityResult.none;
+          return connected ? buildBlocWidget() : buildNoInternetWidget();
+        },
+        child: showLoadingIndicator(),
+      ),
     );
   }
+
+  Widget buildNoInternetWidget() => Center(
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'No connection ... Check your Internet',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: MyColors.grey,
+                ),
+              ),
+              Image.asset('assets/images/no_internet.png'),
+            ],
+          ),
+        ),
+      );
 
   Widget buildBlocWidget() =>
       BlocBuilder<CharactersCubit, CharactersState>(builder: (context, state) {
