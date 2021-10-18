@@ -14,3 +14,8 @@ Breaking Bad Api Project with BLOC.
 <img src="https://i.ibb.co/SrqbSNB/3.png" width="300" title="Details Screen">
   <img src="https://i.ibb.co/q57xy4K/4.png" width="300" title="Sliver App Bar">
 </p>
+
+# GIF
+<p align="center">
+<a href="https://ibb.co/5YYTT1v"><img src="https://i.ibb.co/5YYTT1v/api.gif" alt="api" border="0" /></a>
+</p>
