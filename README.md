@@ -1,58 +1,19 @@
-# Shopping App - Flutter - Null Safety.
+# flutter_breaking
 
-## Video OverView [facebook](https://www.facebook.com/groups/mansouracademy/posts/3064258653853585/)
+## Breaking Bad Api Project with BLOC.
 
-## UI Images.
-### On Boarding
+## API: <a href="https://www.breakingbadapi.com/api/characters">Breaking Bad Characters</a>
 <p align="center">
- <img src="https://i.ibb.co/MkVfmTn/on1.png"  width="300" >
-<img src="https://i.ibb.co/yQdN2DT/on2.png"  width="300" >
+  <img src="https://i.ibb.co/cJ72TvQ/1.png" width="300" title="Home Screen">
+  <img src="https://i.ibb.co/q0k9mvD/2.png" width="300" title="Search Bar"> 
 </p>
 
-### Login & Register
-<p align="center">
- <img src="https://i.ibb.co/R6pVxpR/login.png"  width="300" >
-<img src="https://i.ibb.co/Lk6fJ3W/register.png"  width="300" >
-</p>
-### Home
-<p align="center">
- <img src="https://i.ibb.co/WpTk6hv/2.png"  width="300" >
-<img src="https://i.ibb.co/M18V2BZ/3.png"  width="300" >
+<p align="center" style="margin:50px">
+<img src="https://i.ibb.co/SrqbSNB/3.png" width="300" title="Details Screen">
+  <img src="https://i.ibb.co/q57xy4K/4.png" width="300" title="Sliver App Bar">
 </p>
 
-### Categories
+# GIF
 <p align="center">
-<img src="https://i.ibb.co/mDb6Yqp/6.png"  width="300" >
-<img src="https://i.ibb.co/KGbCnJs/7.png"  width="300" >
+<a href="https://ibb.co/5YYTT1v"><img src="https://i.ibb.co/5YYTT1v/api.gif" alt="api" border="0" /></a>
 </p>
-
-### Product Details
-<p align="center">
-<img src="https://i.ibb.co/L5zy6zq/8.png"  width="300" >
-<img src="https://i.ibb.co/5BzRXYj/9.png"  width="300" >
-</p>
-
-### Search Screen
-<p align="center">
-<img src="https://i.ibb.co/Nm2QSn0/12.png" width="300" >
-<img src="https://i.ibb.co/3zPBMFG/13.png" width="300" >
-<img src="https://i.ibb.co/sKVk7v6/14.png" width="300" >
-</p>
-
-### Cart & Orders & Favorites Screens
-<p align="center">
-<img src="https://i.ibb.co/0BsRVtT/1.png"  width="300" >
-<img src="https://i.ibb.co/pyBWY81/16.png" width="300"  >
-<img src="https://i.ibb.co/dLG7z0j/5.png"  width="300" >
-  
-</p>
-
-### Settings Screen
-<p align="center">
-<img src="https://i.ibb.co/HBKywkm/15.png" width="300" >
-<img src="https://i.ibb.co/8z3sG8W/10.png" width="300" >
-<img src="https://i.ibb.co/dPkNBWH/4.png"  width="300" >
-<img src="https://i.ibb.co/Dk3Z0Pk/11.png" width="300" >
-</p>
-
-
